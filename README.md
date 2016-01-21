@@ -10,7 +10,7 @@ This is the output for the Rule Corresponding to the famous [*Game Of Life*](htt
 
 Let's look at the rule called *Stains* (rule 2345/45678), with a probability of occupation of 0.1, and a board with 15x25 cells.
 
-% GIF here (2345/45678)
+![](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/example_gifs/visual_demo_stains.gif?raw=true)
 
 Notice it stopped at a point in time. The reasone why it stopped is it recognised the current state of the Automaton had already occurred before (let's say the Automaton is *stable* when this happens*). 
 
