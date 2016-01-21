@@ -12,7 +12,7 @@ Let's look at the rule called *Stains* (rule 2345/45678), with a probability of 
 
 ![](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/example_gifs/visual_demo_stains.gif?raw=true)
 
-Notice it stopped at a point in time. The reasone why it stopped is it recognised the current state of the Automaton had already occurred before (let's say the Automaton is *stable* when this happens*). 
+Notice it stopped at a point in time. The reasone why it stopped is it recognised the current state of the Automaton had already occurred before (let's say the Automaton is *stable* when this happens). 
 
 The interface allows us to run until stability in a fairly intuitive way:
 
