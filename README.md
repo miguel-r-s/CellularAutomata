@@ -4,7 +4,7 @@
 
 I decided to build a piece of software that allowed me to study the properties of Cellular Automata in a visual way. The first step was to build something that just prints the evolution of the Automaton to the terminal, according to specific rules.
 
-% GIF here (23/3)
+![](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/example_gifs/visual_demo.gif?raw=true)
 
 This is the output for the Rule Corresponding to the famous [*Game Of Life*](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) (rule 23/3). I can specify a different rule from the terminal, a different size and a different probability of occupation of a given cell in the first generation.
 
