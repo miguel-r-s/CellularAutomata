@@ -23,6 +23,37 @@ The interface allows us to run until stability in a fairly intuitive way:
 	}
 ```
 
+It is interesting to see how many steps until stability we need. The question here is: for a given probability of occupation and a given rule, how many steps does the automaton need until it reaches a state that it had already been in before? My initial guess would be a Gaussian distribution around a peak that was centered around some value that increased with the size of the board. I was.. uh... wrong. 
+
+Let's see the results for several rules.
+
+Parameters:
+
+* p = 0.6
+* size = 10x10
+* number of experiments = 1E4
+
+
+
+
+![Coral (45678/3)]()
+
+![Diamoeba (5678/35678)]()
+
+![LongLife (5/345)]()
+
+![Mazectric (1234/3)]()
+
+![VoteFourSlashFive (35678/4678)]()
+
+The data was acquired using `2D_stability.cpp`, and the histograms were made using the script `GNU_steps_to_stability` in the directory `gnuplot_scripts/`. All of the histograms have the same bin width, which is not ideal, but is good enough to give us an idea of how each rule behaves in terms of number of steps til stability. 
+
+We can now choose to focus on one of the rules and run the experiment with a higher number of tests. I chose rule LongLife (5/345) because it's not clear what the distriibution looks like in the previous case.
+
+Here is the result for 100x as many experiments.
+
+![LongLife (5/345)]()
+
 <!---
 We will also look at the *stability period*, which is defined as the number of iterations the Automaton takes to return to the first repeated state. We'll look into it in more detail later.
 

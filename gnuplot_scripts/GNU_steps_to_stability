@@ -1,0 +1,91 @@
+binwidth=1
+bin(x,width)=width*floor(x/width)
+
+set xlabel "Steps to Stability"
+set ylabel "Number of occurrences"
+
+set terminal png
+
+set output 'graphs/Amoeba.png'
+plot 'Amoeba.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Assimilation.png'
+plot 'Assimilation.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Coagulations.png'
+plot 'Coagulations.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/ConwaysLife.png'
+plot 'ConwaysLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Coral.png'
+plot 'Coral.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/DayAndNight.png'
+plot 'DayAndNight.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Diamoeba.png'
+plot 'Diamoeba.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/DotLife.png'
+plot 'DotLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/DryLife.png'
+plot 'DryLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Fredkin.png'
+plot 'Fredkin.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Gnarl.png'
+plot 'Gnarl.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/HighLife.png'
+plot 'HighLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/LifeWithoutDeath.png'
+plot 'LifeWithoutDeath.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/LiveFreeOrDie.png'
+plot 'LiveFreeOrDie.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/LongLife.png'
+plot 'LongLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Maze.png'
+plot 'Maze.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Mazectric.png'
+plot 'Mazectric.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Move.png'
+plot 'Move.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/PseudoLife.png'
+plot 'PseudoLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Replicator.png'
+plot 'Replicator.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Seeds.png'
+plot 'Seeds.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Serviettes.png'
+plot 'Serviettes.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Stains.png'
+plot 'Stains.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/ThirtyFourLife.png'
+plot 'ThirtyFourLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/TwoByTwo.png'
+plot 'TwoByTwo.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/Vote.png'
+plot 'Vote.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/VoteFourSlashFive.png'
+plot 'VoteFourSlashFive.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+
+set output 'graphs/WalledCities.png'
+plot 'WalledCities.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes

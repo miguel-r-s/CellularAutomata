@@ -1,0 +1,10 @@
+binwidth=1
+bin(x,width)=width*floor(x/width)
+
+set xlabel "Steps to Stability"
+set ylabel "Number of occurrences"
+
+set terminal png
+
+set output 'graphs/LongLife.png'
+plot 'LongLife.dat' using (bin($1,binwidth)):(1.0) smooth freq with boxes
