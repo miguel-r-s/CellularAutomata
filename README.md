@@ -27,7 +27,7 @@ It is interesting to see how many steps until stability we need. The question he
 
 Let's see the results for several rules.
 
-Parameters:
+## Parameters:
 
 * p = 0.6
 * size = 10x10
