@@ -34,17 +34,15 @@ Parameters:
 * number of experiments = 1E4
 
 
+![Coral (45678/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/Coral.png?raw=true)
 
+![Diamoeba (5678/35678)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/Diamoeba.png?raw=true)
 
-![Coral (45678/3)]()
+![LongLife (5/345)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/LongLife.png?raw=true)
 
-![Diamoeba (5678/35678)]()
+![Mazectric (1234/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/Mazectric.png?raw=true)
 
-![LongLife (5/345)]()
-
-![Mazectric (1234/3)]()
-
-![VoteFourSlashFive (35678/4678)]()
+![VoteFourSlashFive (35678/4678)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/VoteFourSlashFive.png?raw=true)
 
 The data was acquired using `2D_stability.cpp`, and the histograms were made using the script `GNU_steps_to_stability` in the directory `gnuplot_scripts/`. All of the histograms have the same bin width, which is not ideal, but is good enough to give us an idea of how each rule behaves in terms of number of steps til stability. 
 
@@ -52,7 +50,7 @@ We can now choose to focus on one of the rules and run the experiment with a hig
 
 Here is the result for 100x as many experiments.
 
-![LongLife (5/345)]()
+![LongLife (5/345)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/LongLife_1E6.png?raw=true)
 
 <!---
 We will also look at the *stability period*, which is defined as the number of iterations the Automaton takes to return to the first repeated state. We'll look into it in more detail later.
