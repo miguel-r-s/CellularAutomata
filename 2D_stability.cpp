@@ -25,7 +25,7 @@ int main( void ) {
 	const int n_repetitions = 1E4;
 	const double prob = 0.6;
 
-	// Uncomment this loop and comment the "rule" line to run for all rules.
+	// Comment this loop and uncomment the "rule" line to run for a specific rule
 	for( auto & rule : RuleStrings::rules ) { 
 	//	Rule rule = LongLife_rule; 
 		Board B( Board::SizeV{vertSize}, Board::SizeH{horiSize}, rule.second );

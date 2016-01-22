@@ -1,0 +1,88 @@
+set xlabel "Occupation"
+set ylabel "Average steps to Stability"
+
+set terminal png
+
+set output 'graphs/Amoeba.png'
+plot 'Amoeba_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Assimilation.png'
+plot 'Assimilation_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Coagulations.png'
+plot 'Coagulations_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/ConwaysLife.png'
+plot 'ConwaysLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Coral.png'
+plot 'Coral_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/DayAndNight.png'
+plot 'DayAndNight_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Diamoeba.png'
+plot 'Diamoeba_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/DotLife.png'
+plot 'DotLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/DryLife.png'
+plot 'DryLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Fredkin.png'
+plot 'Fredkin_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Gnarl.png'
+plot 'Gnarl_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/HighLife.png'
+plot 'HighLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/LifeWithoutDeath.png'
+plot 'LifeWithoutDeath_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/LiveFreeOrDie.png'
+plot 'LiveFreeOrDie_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/LongLife.png'
+plot 'LongLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Maze.png'
+plot 'Maze_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Mazectric.png'
+plot 'Mazectric_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Move.png'
+plot 'Move_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/PseudoLife.png'
+plot 'PseudoLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Replicator.png'
+plot 'Replicator_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Seeds.png'
+plot 'Seeds_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Serviettes.png'
+plot 'Serviettes_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Stains.png'
+plot 'Stains_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/ThirtyFourLife.png'
+plot 'ThirtyFourLife_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/TwoByTwo.png'
+plot 'TwoByTwo_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/Vote.png'
+plot 'Vote_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/VoteFourSlashFive.png'
+plot 'VoteFourSlashFive_sts_vs_occupation.dat' w lp 
+
+set output 'graphs/WalledCities.png'
+plot 'WalledCities_sts_vs_occupation.dat' w lp 

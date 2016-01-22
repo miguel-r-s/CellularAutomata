@@ -23,12 +23,15 @@ The interface allows us to run until stability in a fairly intuitive way:
 	}
 ```
 
+## Simulations
+
 It is interesting to see how many steps until stability we need. The question here is: for a given probability of occupation and a given rule, how many steps does the automaton need until it reaches a state that it had already been in before? My initial guess would be a Gaussian distribution around a peak that was centered around some value that increased with the size of the board. I was.. uh... wrong. 
 
 Let's see the results for several rules.
 
-### Parameters:
+### Distribution of \#steps until stability:
 
+Parameters:
 * p = 0.6
 * size = 10x10
 * number of experiments = 1E4
@@ -52,10 +55,36 @@ The data was acquired using `2D_stability.cpp`, and the histograms were made usi
 
 We can now choose to focus on one of the rules and run the experiment with a higher number of tests. I chose rule LongLife (5/345) because it's not clear what the distribution looks like in the previous case.
 
-Here is the result for 100x as many experiments.
+Here is the result for 100x as many experiments. This took about 15 minutes to compute in my machine (with an Intel Core i7 2.4GHz).
 
 #### LongLife (5/345)
 ![LongLife (5/345)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/2D_stability/graphs/LongLife_1E6.png?raw=true)
+
+### Variation of \#steps until stability with the initial probability of occupation
+
+The only intuition I had for the results was that the number of steps til stability should drop to zero when the probability was too close to 0 or 1. I decided to run a simulation to see how the average \#steps to stability changes with the initial probability of occupation.
+
+The results were obtained using the source file `sts_occupation.cpp` with the following parameters:
+
+* 0 <= p <= 1
+* size = 8x8
+* number of experiments = 1E6
+
+The idea is to run a number of simulations for each probability of occupation (0 <= p <= 1) and calculate the average number of steps to stability.
+
+These are some of the most interesting results: 
+
+#### Assimilation (45678/345)
+![Assimilation (4567/345)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Assimilation_sts_vs_occupation.png?raw=true)
+
+#### ConwaysLife (23/3)
+![ConwaysLife (23/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/ConwaysLife_sts_vs_occupation.png?raw=true)
+
+#### Maze (12345/3)
+![Maze (12345/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Maze_sts_vs_occupation.png?raw=true)
+
+#### Stains (235678/3678)
+![Śtains (235678/3678)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Stains_sts_vs_occupation.png?raw=true)
 
 <!---
 We will also look at the *stability period*, which is defined as the number of iterations the Automaton takes to return to the first repeated state. We'll look into it in more detail later.
