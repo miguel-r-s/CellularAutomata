@@ -1,0 +1,38 @@
+set xlabel 'Size'
+set ylabel 'Occupation'
+set zlabel '#Gen'
+
+set grid
+
+# splot 'Amoeba.dat' with lines, 'Assimilation.dat' with lines, 'Coagulations.dat' with lines, 'ConwaysLife.dat' with lines, 'Coral.dat' with lines, 'DayAndNight.dat' with lines, 'Diamoeba.dat' with lines, 'DotLife.dat' with lines, 'DryLife.dat' with lines, 'Fredkin.dat' with lines, 'Gnarl.dat' with lines, 'HighLife.dat' with lines, 'LifeWithoutDeath.dat' with lines, 'LiveFreeOrDie.dat' with lines, 'LongLife.dat' with lines, 'Maze.dat' with lines, 'Mazectric.dat' with lines, 'Move.dat' with lines, 'PseudoLife.dat' with lines, 'Replicator.dat' with lines, 'Seeds.dat' with lines, 'Serviettes.dat' with lines, 'Stains.dat' with lines, 'ThirtyFourLife.dat' with lines, 'TwoByTwo.dat' with lines, 'Vote.dat' with lines, 'VoteFourSlashFive.dat' with lines, 'WalledCities.dat' with lines
+
+#splot 'Amoeba.dat', 'Assimilation.dat', 'Coagulations.dat', 'ConwaysLife.dat', 'Coral.dat', 'DayAndNight.dat', 'Diamoeba.dat', 'DotLife.dat', 'DryLife.dat', 'Fredkin.dat', 'Gnarl.dat', 'HighLife.dat', 'LifeWithoutDeath.dat', 'LiveFreeOrDie.dat', 'LongLife.dat', 'Maze.dat', 'Mazectric.dat', 'Move.dat', 'PseudoLife.dat', 'Replicator.dat', 'Seeds.dat', 'Serviettes.dat', 'Stains.dat', 'ThirtyFourLife.dat', 'TwoByTwo.dat', 'Vote.dat', 'VoteFourSlashFive.dat', 'WalledCities.dat'
+
+#splot 'Amoeba.dat'
+splot 'Assimilation.dat'
+#splot 'Coagulations.dat'
+#splot 'ConwaysLife.dat' w lp
+#splot 'Coral.dat'
+#splot 'DayAndNight.dat'
+#splot 'Diamoeba.dat' w lp
+#splot 'DotLife.dat'
+#splot 'DryLife.dat'
+#splot 'Fredkin.dat'
+#splot 'Gnarl.dat'
+#splot 'HighLife.dat'
+#splot 'LifeWithoutDeath.dat'
+#splot 'LiveFreeOrDie.dat'
+#splot 'LongLife.dat'
+#splot 'Maze.dat'
+#splot 'Mazectric.dat'
+#splot 'Move.dat'
+#splot 'PseudoLife.dat'
+#splot 'Replicator.dat'
+#splot 'Seeds.dat'
+#splot 'Serviettes.dat'
+#splot 'Stains.dat'
+#splot 'ThirtyFourLife.dat'
+#splot 'TwoByTwo.dat'
+#splot 'Vote.dat'
+#splot 'VoteFourSlashFive.dat'
+#splot 'WalledCities.dat'

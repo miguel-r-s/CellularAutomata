@@ -87,3 +87,11 @@ These are some of the most interesting results:
 ![Śtains (235678/3678)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Stains.png?raw=true)
 
 These images were produced using the script `gnuplot_scripts/GNU_average_steps_to_stability_vs_prob`.
+
+### Variating both probability of occupation and the size of the grid
+
+It's time for some cool 3D plots. We'll now see how the number of steps to stability evolves with both the probability of occupation and the size of the grid. We will consider a squared NxN grid, with 1 <= N <= 9 and 0 <= p <= 1.
+
+The previous result for Assimilation (4567/345) looks like a superposition of two peaks. Let's see if that's true by running the experiment for other grid sizes.
+
+ 

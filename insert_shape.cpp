@@ -16,7 +16,9 @@ int main(int argc, char** argv){
 	// Default values	
 	unsigned int vertSize = 20;
 	unsigned int horiSize = 20;
-	double prob = 0.6;
+	int shapeX = horiSize/2;
+	int shapeY = vertSize/2;
+	std::string shapeName = "Shapes/glider.txt";
 	std::string ruleString = ConwaysLife_rulestring;
 
 	/* Choose size and occupation status */
@@ -26,8 +28,14 @@ int main(int argc, char** argv){
 	if( cmdOptionExists(argv, argv + argc, "-h") ){
 		horiSize = atoi(getCmdOption(argv, argv + argc, "-h"));
 	}
-	if( cmdOptionExists(argv, argv + argc, "-p") ){
-		prob = atof(getCmdOption(argv, argv + argc, "-p"));
+	if( cmdOptionExists(argv, argv + argc, "--shape-x") ){
+		shapeX = atof(getCmdOption(argv, argv + argc, "--shape-x"));
+	}
+	if( cmdOptionExists(argv, argv + argc, "--shape-y") ){
+		shapeY = atof(getCmdOption(argv, argv + argc, "--shape-y"));
+	}
+	if( cmdOptionExists(argv, argv + argc, "--shape-name") ){
+		shapeName = getCmdOption(argv, argv + argc, "--shape-name");
 	}
 
 	// Choose rule by name or by string directly
@@ -46,13 +54,13 @@ int main(int argc, char** argv){
 	}
 
 	Board B( Board::SizeV{vertSize}, Board::SizeH{horiSize}, ruleString);
-	B.setRandom(prob*vertSize*horiSize);
+	B.insertShape(shapeName, Board::Row{shapeY}, Board::Col{shapeX});
 
-	while(!B.isStable()){
+	while(1){
 		B.setNext();
+		usleep(3E5);
 		system("clear");
 		std::cout << B;
-		usleep(3E4);
 	}
 
 	return 0;
