@@ -46,7 +46,7 @@ Parameters:
 
 The data was acquired using `2D_stability.cpp`, and the histograms were made using the script `GNU_steps_to_stability` in the directory `gnuplot_scripts/`. All of the histograms have the same bin width, which is not ideal, but is good enough to give us an idea of how each rule behaves in terms of number of steps til stability. 
 
-We can now choose to focus on one of the rules and run the experiment with a higher number of tests. I chose rule LongLife (5/345) because it's not clear what the distriibution looks like in the previous case.
+We can now choose to focus on one of the rules and run the experiment with a higher number of tests. I chose rule LongLife (5/345) because it's not clear what the distribution looks like in the previous case.
 
 Here is the result for 100x as many experiments.
 
