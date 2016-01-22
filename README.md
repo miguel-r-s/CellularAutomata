@@ -75,16 +75,16 @@ The idea is to run a number of simulations for each probability of occupation (0
 These are some of the most interesting results: 
 
 #### Assimilation (45678/345)
-![Assimilation (4567/345)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Assimilation_sts_vs_occupation.png?raw=true)
+![Assimilation (4567/345)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Assimilation.png?raw=true)
 
 #### ConwaysLife (23/3)
-![ConwaysLife (23/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/ConwaysLife_sts_vs_occupation.png?raw=true)
+![ConwaysLife (23/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/ConwaysLife.png?raw=true)
 
 #### Maze (12345/3)
-![Maze (12345/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Maze_sts_vs_occupation.png?raw=true)
+![Maze (12345/3)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Maze.png?raw=true)
 
 #### Stains (235678/3678)
-![Śtains (235678/3678)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Stains_sts_vs_occupation.png?raw=true)
+![Śtains (235678/3678)](https://github.com/miguelrodriguesdossantos/CellularAutomata/blob/master/sts_vs_occupation/graphs/Stains.png?raw=true)
 
 <!---
 We will also look at the *stability period*, which is defined as the number of iterations the Automaton takes to return to the first repeated state. We'll look into it in more detail later.
