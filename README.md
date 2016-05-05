@@ -93,7 +93,3 @@ These images were produced using the script `gnuplot_scripts/GNU_average_steps_t
 It's time for some cool 3D plots. We'll now see how the number of steps to stability evolves with both the probability of occupation and the size of the grid. We will consider a squared NxN grid, with 1 <= N <= 9 and 0 <= p <= 1.
 
 The previous result for Assimilation (4567/345) looks like a superposition of two peaks. Let's see if that's true by running the experiment for other grid sizes.
-
-# To do
-Evaluate the performance bottlenecks. The bottlenecks are likely related to the copying of the previous state before the calculation of the next one. If that's the case, one possible solution is to loop through the board twice. First round stores the living cells for the next generation in an array, second round sets the board to the new configuration. It's not possible (AFAIK) to do this in a single round since it's necessary to know the previous state during the calculations of the next step. 
- 
