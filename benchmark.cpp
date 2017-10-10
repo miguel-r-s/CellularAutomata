@@ -14,8 +14,8 @@ int main(int argc, char** argv){
 	srand(time(NULL));
 
 	// Default values	
-	unsigned int vertSize = 50;
-	unsigned int horiSize = 50;
+	unsigned int vertSize = 200;
+	unsigned int horiSize = 200;
 	double prob = 0.25;
 	std::string ruleString = ConwaysLife_rulestring;
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv){
 	if( cmdOptionExists(argv, argv + argc, "--rule-name") ){
 		
 		std::string ruleName = getCmdOption(argv, argv + argc, "--rule-name");
-		for( auto & rule : RuleStrings::rules ){
+		for( auto& rule : RuleStrings::rules ){
 			if(rule.first == ruleName){
 				ruleString = rule.second;
 				break;
@@ -47,13 +47,25 @@ int main(int argc, char** argv){
 
 	Board B( Board::SizeV{vertSize}, Board::SizeH{horiSize}, ruleString);
 	B.setRandom(prob*vertSize*horiSize);
+	B.setStorage(false);
 
-	while(!B.isStable()){
+	const time_t time_start = time(0);
+	const time_t max_time_seconds = 30;
+	
+	// Set next state for 30 seconds
+	time_t new_time = time(0);
+	int32_t num_iterations;
+
+	for(num_iterations = 0; new_time - time_start < max_time_seconds; num_iterations++){
+		
 		B.setNext();
-		system("clear");
-		std::cout << B;
-		usleep(3E4);
+		new_time = time(0);
 	}
+	
+	// Printing makes sure the computations are performed
+	// i.e. printing makes it impossible for the compiler to entirely discard computations
+	cout << B << endl;
 
+	cout << float(num_iterations)/max_time_seconds << " iterations per second." << endl;
 	return 0;
 }

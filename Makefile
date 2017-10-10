@@ -1,15 +1,22 @@
-GPP=g++
+GCC=g++
 FLAGS=-Wall -std=c++11 -O3
 
-%: %.cpp board.cpp board.hpp global.hpp cell.hpp
-	$(GPP) $(FLAGS) -o $@.out board.cpp $<
-	@echo "Compilation terminated!"
+# default builds the necessary object files
+default: board.o
 
-default:
-	@echo "Please input sources"
+%: %.cpp board.o 
+	$(GCC) $(FLAGS) -o $@.out board.o $<
+	@echo "> Compilation terminated!"
+
+board.o: board.cpp board.hpp global.hpp cell.hpp
+	@echo "> Building object files."
+	$(GCC) $(FLAGS) -c board.cpp
 
 clean:
-	rm *.out
+	@echo "> Removing object files."
+	rm -f *.o
+	@echo "> Removing executable files."
+	rm -f *.out
 	
 cleanfiles:
 	rm dataFiles/*.dat

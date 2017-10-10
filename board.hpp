@@ -41,7 +41,7 @@ public:
 	int stepsToStability();
 	int stabilityPeriod(); // Evaluates the number of steps in the stability period. 
 	
-	void setRule(std::string);
+	void setRule(const std::string&);
 	void setCellStatus(Row, Col, Cell::Status);
 	void setAll(Cell::Status);
 	void clearAll();
@@ -49,17 +49,24 @@ public:
 	void insertShape(std::string file_name, Row row, Col col);
 	void setBoundary(Cell::Status);
 	void setNext();
+	void setStorage(bool on=true);
 		
 	//Assignment operator
 	Board& operator=(Board);
 	friend std::ostream& operator << (std::ostream&, const Board&);
 	friend std::istream& operator >> (std::istream&, Board&);
-	
+	friend bool operator==(const Board&, const Board&);
 
 private:
 	
 	typedef std::vector< std::vector< Cell > > Board_t;
-	Board_t board;
+	
+	/*
+		Two boards are created for optimization purposes.
+		One of them is the "current" board, the other is the "next" board.
+		This prevents having to copy the board at each iteration.
+	*/
+	Board_t board[2];
 		
 	/*
 		This unordered_map will store the hashes of each
@@ -72,12 +79,19 @@ private:
 	std::vector<int> birth;
 	
 	bool _isStable;
-	
+	bool _should_store;
+
+	bool _index; // Used to determine which of the boards is currently active
+
 	int sizeV;  
 	int sizeH;
-	
+
+	// Can only access the _next_ element from within 
+	// the implementation of the class. The public 
+	// implementation of setCellStatus only 
+	void setCellStatus(Row, Col, Cell::Status, bool next);
 	void storeHash();
-	std::string configurationString() const ; 
+	std::string configurationString() const; 
 	int countLivingNeighbours(Row, Col) const;
 			
 };
