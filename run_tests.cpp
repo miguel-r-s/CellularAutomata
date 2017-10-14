@@ -52,10 +52,28 @@ int main(int argc, char** argv) {
 	std::cout << "Testing iteration correctness" << std::endl;
 	
 	std::vector<IterationCorrectnessTest_t> iteration_test_cases {
-		//{{  3,   3,  ConwaysLife_rulestring}, "test_files/p1.dat", "test_files/p1-solution.dat", 1},
-		//{{  5,   5,  ConwaysLife_rulestring}, "test_files/p2.dat", "test_files/p2-solution.dat", 1},
-		//{{101, 101,  ConwaysLife_rulestring}, "test_files/glider.dat", "test_files/glider.dat", 404},
-		{{50, 1000,  ConwaysLife_rulestring}, "test_files/assym-glider.dat", "test_files/assym-glider.dat", 7996}
+		{{  3,   3,  ConwaysLife_rulestring}, "test_files/p1.dat", "test_files/p1-solution.dat", 1},
+		{{  5,   5,  ConwaysLife_rulestring}, "test_files/line.dat", "test_files/line-solution.dat", 1},
+		{{101, 101,  ConwaysLife_rulestring}, "test_files/glider.dat", "test_files/glider.dat", 404},
+		{{25,   20,  ConwaysLife_rulestring}, "test_files/pentadecathlon.dat", "test_files/pentadecathlon.dat", 15},
+		
+		/* This is a particularly interesting test case, since it combines two oscillators with different periods.
+
+		   Oscillator           Period
+		   ---------------------------
+		   Pentadecathlon           15
+		   Line                      2
+		   ---------------------------
+
+			The stability period will be 30 since that is the Least Common Multiple of the 
+			two periods.
+		*/
+		{{25,   46,  ConwaysLife_rulestring}, "test_files/pentadecathlonandline.dat", "test_files/pentadecathlonandline.dat", 30},
+		
+		/* This test is like the previous, except another figure with period 3 is added. 
+		   The least common denominator is is still 30. 
+		*/
+		{{43,   46,  ConwaysLife_rulestring}, "test_files/pentadecathlonandlineandother.dat", "test_files/pentadecathlonandlineandother.dat", 30},
 	};
 
 	for(auto& test: iteration_test_cases) {
@@ -69,11 +87,7 @@ int main(int argc, char** argv) {
 		problem_file  >> b_problem;
 		solution_file >> b_solution;
 
-		std::cout << b_problem.stepsToStability() << std::endl;
-		exit(0);
-
-		int it;
-		for(it = 0; it < test.num_iterations; ++it){
+		for(int i = 0; i < test.num_iterations; ++i){
 			b_problem.setNext();
 		}
 
@@ -82,33 +96,11 @@ int main(int argc, char** argv) {
 		}
 		else {
 			std::cout << "\e[31mTest failed\n";
-			std::cout << "Obtained: " << it << std::endl;
 		}
+
 		std::cout << test << '\n';
 		std::cout << "--------------------------------------\e[0m" << std::endl;
 	}
 
-	// const std::vector<Problem> problems {
-	// 	Problem{"start1.txt", "end1.txt"},
-	// 	Problem{},
-	// 	Problem{},
-	// 	Problem{},
-	// 	Problem{},
-	// 	Problem{},
-	// 	Problem{}
-	// };
-// 
-	// for(auto& problem: problems) {
-	// 
-	// 	std::ifstream prob_file(problem.problem_file);
-	// 	std::ifstream sol_file (problem.solution_file)
-	// 
-	// 	Board start;
-	// 	Board end;
-	// 
-	// 	// Todo: define equality operator
-	// 	assert(start==end);
-	// }
-// 
 	return 0;
 }

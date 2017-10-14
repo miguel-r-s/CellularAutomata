@@ -108,8 +108,11 @@ int Board::stabilityPeriod() {
 	
 		Whe know we reached stability when the current configuration equals one previous configuration.
 		This function returns the number of steps of a stability period.
-	
-		The minimum stability period will be 1. This means in a stable situation, B == next B.
+
+		The stability period is the number of generations in a cycle, EXCLUSING THE REPEATED ONE.
+		Example: If the cycle is A-B-C-A-B-C, the period will be 3 and not 4.  
+
+		The minimum stability period will be 0. This means in a stable situation, B == next B.
 		
 	*/
 	
@@ -234,7 +237,11 @@ void Board::setBoundary(Cell::Status cs){
 }
 
 void Board::setNext(){
-	
+
+	// Store previous state in the hast table
+	if( _should_store )
+		storeHash();
+
 	// Calculate next Step
 	for(int i = 0; i < sizeV; ++i){
 		for(int ii = 0; ii < sizeH; ++ii){
@@ -252,10 +259,6 @@ void Board::setNext(){
 	}
 	
 	_index = !_index;
-
-	if( _should_store )
-		storeHash();
-
 }
 
 
@@ -316,10 +319,10 @@ std::ostream& operator << (std::ostream& os, const Board& obj){
 		for(int ii = 0; ii < obj.sizeH; ++ii){
 			
 			bool alive = obj.isAlive(Board::Row{i}, Board::Col{ii});
-			os << ( alive ? ALIVE_CHAR:DEAD_CHAR ) << ' ';
+			os << ( alive ? ALIVE_CHAR : DEAD_CHAR ) << ' ';
 		
 		}
-		os << '\n'; // New line, but avoid flushing (as std::endl would).
+		os << '\n'; // Break line, but avoid flushing (as std::endl would).
 	}
 	os << std::endl;
 	return os;
@@ -353,7 +356,6 @@ std::istream& operator >> (std::istream& is, Board& obj){
 	}
 
 	if( indexV != obj.sizeV ) {
-		std::cout << indexV << " " << obj.sizeV << std::endl;
 		throw std::ios_base::failure("File is misformatted (not enough lines in the automata)");
 	}
 
@@ -371,6 +373,7 @@ bool operator==(const Board& lhs, const Board& rhs) {
 		for(int ii = 0; ii < lhs.sizeH; ++ii){
 
 			if( lhs.isAlive(Board::Row{i}, Board::Col{ii}) != rhs.isAlive(Board::Row{i}, Board::Col{ii}) ) {
+
 				return false;
 			}
 		}
