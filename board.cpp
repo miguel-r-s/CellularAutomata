@@ -16,8 +16,8 @@ Board::Board(SizeV v, SizeH h, std::string ruleString){
 	sizeV = v.val;
 	sizeH = h.val;
 	
-	board[0] = Board_t(sizeH, std::vector< Cell >( sizeV ));
-	board[1] = Board_t(sizeH, std::vector< Cell >( sizeV ));
+	board[0] = boost::dynamic_bitset<>(sizeV*sizeH);
+	board[1] = boost::dynamic_bitset<>(sizeV*sizeH);
 
 	_index = false;
 	_isStable = false;
@@ -37,7 +37,7 @@ Board::Board(const Board& B){
 
 Board::~Board(){};
 
-bool Board::isAlive(Row row, Col col) const { return board[_index].at( col.val ).at( row.val ).isAlive(); }
+bool Board::isAlive(Row row, Col col) const { return board[_index].test(sizeH * row.val + col.val); }
 bool Board::isStable() const { return _isStable; }
 
 int Board::countLivingNeighbours(Row row, Col col) const {
@@ -72,22 +72,6 @@ int Board::countLivingNeighbours(Row row, Col col) const {
 	return num_living;
 }
 
-
-/*
-This function turns a given configuration of
-the automaton into a string of 0 and 1
-*/
-std::string Board::configurationString() const {
-	
-	std::stringstream ss;
-	
-	for(int i = 0; i < sizeV; ++i)
-		for(int ii = 0; ii < sizeH; ++ii)
-			ss << ( isAlive( Row{i}, Col{ii} ) ? '1':'0' );
-	
-	return ss.str();
-}
-
 int Board::stepsToStability() {
 	
 	int step = 0;
@@ -109,7 +93,7 @@ int Board::stabilityPeriod() {
 		Whe know we reached stability when the current configuration equals one previous configuration.
 		This function returns the number of steps of a stability period.
 
-		The stability period is the number of generations in a cycle, EXCLUSING THE REPEATED ONE.
+		The stability period is the number of generations in a cycle, EXCLUDING THE REPEATED ONE.
 		Example: If the cycle is A-B-C-A-B-C, the period will be 3 and not 4.  
 
 		The minimum stability period will be 0. This means in a stable situation, B == next B.
@@ -118,7 +102,10 @@ int Board::stabilityPeriod() {
 	
 	int step = stepsToStability();
 	
-	std::unordered_map< std::string, int >::const_iterator iter = hash_map.find( configurationString() );
+	std::string buffer;
+	to_string(board[_index], buffer);
+
+	std::unordered_map< std::string, int >::const_iterator iter = hash_map.find( buffer );
 	
 	return (step - iter->second);
 }
@@ -155,9 +142,9 @@ void Board::setRule(const std::string& userRule) {
 	rule = userRule;
 }
 
-void Board::setCellStatus(Row row, Col col, Cell::Status cs, bool next){
+void Board::setCellStatus(Row row, Col col, Cell::Status cs, bool _next){
 
-	board[next ? !_index:_index].at( col.val ).at( row.val ).status = cs;
+	board[_next ? !_index:_index].set(sizeH * row.val + col.val, cs);
 }
 
 void Board::setCellStatus(Row row, Col col, Cell::Status cs){
@@ -168,7 +155,7 @@ void Board::setAll(Cell::Status cs){
 	
 	for(int i = 0; i < sizeV; ++i){
 		for(int ii = 0; ii < sizeH; ++ii){
-			setCellStatus( Row{i}, Col{ii}, cs);
+			setCellStatus(Row{i}, Col{ii}, cs);
 		}
 	}	
 }
@@ -187,11 +174,12 @@ void Board::setRandom(int numberOfLivingCells){
 		numberOfLivingCells = numberOfCells;
 	
 	double prob_alive = (double)numberOfLivingCells/numberOfCells;
-	
+
 	for(int i = 0; i < sizeV; ++i){
 		for(int ii = 0; ii < sizeH; ++ii){
 			double rnd = (double) rand()/(double)RAND_MAX;
 			Cell::Status cs = (rnd < prob_alive) ? Cell::Status::Alive : Cell::Status::Dead;
+
 			setCellStatus( Row{i}, Col{ii}, cs);
 			setCellStatus( Row{i}, Col{ii}, cs, true);
 		}
@@ -254,7 +242,7 @@ void Board::setNext(){
 				
 			if(is_alive && !will_survive ) 	    setCellStatus( Row{i}, Col{ii}, Cell::Status::Dead , true );
 			else if(!is_alive && will_be_born ) setCellStatus( Row{i}, Col{ii}, Cell::Status::Alive, true );
-			else setCellStatus( Row{i}, Col{ii}, board[_index].at(ii).at(i).status, true );
+			else setCellStatus( Row{i}, Col{ii}, Cell::Status(board[_index].test(sizeH * i + ii)), true );
 		}
 	}
 	
@@ -291,7 +279,8 @@ void Board::storeHash(){
 	
 	int index = hash_map.size() + 1; // The index will be as the 'next position in the hash table'
 	
-	std::string preHash = configurationString();
+	std::string preHash;
+	to_string(board[_index], preHash);
 	
 	if(hash_map.count(preHash) > 0) _isStable = true;
 	else hash_map[preHash] = index;
@@ -320,7 +309,7 @@ std::ostream& operator << (std::ostream& os, const Board& obj){
 			
 			bool alive = obj.isAlive(Board::Row{i}, Board::Col{ii});
 			os << ( alive ? ALIVE_CHAR : DEAD_CHAR ) << ' ';
-		
+
 		}
 		os << '\n'; // Break line, but avoid flushing (as std::endl would).
 	}
@@ -351,6 +340,7 @@ std::istream& operator >> (std::istream& is, Board& obj){
 			if      ( c == ALIVE_CHAR ) cs = Cell::Status::Alive;
 			else if ( c == DEAD_CHAR  ) cs = Cell::Status::Dead;
 			else throw std::ios_base::failure("File is misformatted (could not parse the board correctly)");
+			
 			obj.setCellStatus(Board::Row{indexV}, Board::Col{i}, cs);
 		}
 	}

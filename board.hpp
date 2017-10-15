@@ -7,6 +7,9 @@
 #include <string>
 #include <unordered_map>
 
+/* The configuration of the board will be represented as a bitset */
+#include <boost/dynamic_bitset.hpp>
+
 #include "global.hpp"
 #include "cell.hpp"
 
@@ -59,8 +62,8 @@ public:
 
 private:
 	
-	typedef std::vector< std::vector< Cell > > Board_t;
-	
+	typedef boost::dynamic_bitset<> Board_t;	
+
 	/*
 		Two boards are created for optimization purposes.
 		One of them is the "current" board, the other is the "next" board.
@@ -70,7 +73,7 @@ private:
 		
 	/*
 		This unordered_map will store the hashes of each
-	 	of the previous configurations of the board.
+	 	of the previous configurations of the board if _should_store == true
 	*/
 	std::unordered_map< std::string, int > hash_map;
 	
@@ -91,7 +94,6 @@ private:
 	// implementation of setCellStatus only 
 	void setCellStatus(Row, Col, Cell::Status, bool next);
 	void storeHash();
-	std::string configurationString() const; 
 	int countLivingNeighbours(Row, Col) const;
 			
 };
