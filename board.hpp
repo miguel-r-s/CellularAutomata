@@ -7,8 +7,6 @@
 #include <string>
 #include <unordered_map>
 
-/* The configuration of the board will be represented as a bitset */
-#include <boost/dynamic_bitset.hpp>
 
 #include "global.hpp"
 #include "cell.hpp"
@@ -62,20 +60,21 @@ public:
 
 private:
 	
-	typedef boost::dynamic_bitset<> Board_t;	
-
 	/*
 		Two boards are created for optimization purposes.
 		One of them is the "current" board, the other is the "next" board.
 		This prevents having to copy the board at each iteration.
+	
+		std::vector<bool> is a specialization of std::vector
+	    that uses only one bit to represent each bool.
 	*/
-	Board_t board[2];
+	std::vector<bool> board[2];
 		
 	/*
 		This unordered_map will store the hashes of each
 	 	of the previous configurations of the board if _should_store == true
 	*/
-	std::unordered_map< std::string, int > hash_map;
+	std::unordered_map< std::size_t, int > hash_map;
 	
 	std::string rule;
 	std::vector<int> survival;

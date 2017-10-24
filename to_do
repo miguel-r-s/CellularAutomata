@@ -1,2 +1,0 @@
-- Hash dynamic_bitset directly without converting to string
-- Get rid of compilation warnings.

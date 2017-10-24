@@ -4,7 +4,6 @@
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
-#include <functional>
 #include <regex>
 
 #include "board.hpp"
@@ -17,8 +16,8 @@ Board::Board(SizeV v, SizeH h, std::string ruleString){
 	sizeV = v.val;
 	sizeH = h.val;
 	
-	board[0] = std::vector<bool>(sizeV*sizeH);
-	board[1] = std::vector<bool>(sizeV*sizeH);
+	board[0] = boost::dynamic_bitset<>(sizeV*sizeH);
+	board[1] = boost::dynamic_bitset<>(sizeV*sizeH);
 
 	_index = false;
 	_isStable = false;
@@ -38,7 +37,7 @@ Board::Board(const Board& B){
 
 Board::~Board(){};
 
-bool Board::isAlive(Row row, Col col) const { return board[_index][sizeH * row.val + col.val]; }
+bool Board::isAlive(Row row, Col col) const { return board[_index].test(sizeH * row.val + col.val); }
 bool Board::isStable() const { return _isStable; }
 
 int Board::countLivingNeighbours(Row row, Col col) const {
@@ -103,10 +102,10 @@ int Board::stabilityPeriod() {
 	
 	int step = stepsToStability();
 	
-	std::hash<std::vector<bool>> hasher;
-	std::size_t hash = hasher(board[_index]);
+	std::string buffer;
+	to_string(board[_index], buffer);
 
-	std::unordered_map< std::size_t, int>::iterator iter = hash_map.find( hash );
+	std::unordered_map< std::string, int >::const_iterator iter = hash_map.find( buffer );
 	
 	return (step - iter->second);
 }
@@ -145,7 +144,7 @@ void Board::setRule(const std::string& userRule) {
 
 void Board::setCellStatus(Row row, Col col, Cell::Status cs, bool _next){
 
-	board[_next ? !_index:_index][sizeH * row.val + col.val] = cs;
+	board[_next ? !_index:_index].set(sizeH * row.val + col.val);
 }
 
 void Board::setCellStatus(Row row, Col col, Cell::Status cs){
@@ -175,12 +174,11 @@ void Board::setRandom(int numberOfLivingCells){
 		numberOfLivingCells = numberOfCells;
 	
 	double prob_alive = (double)numberOfLivingCells/numberOfCells;
-
+	
 	for(int i = 0; i < sizeV; ++i){
 		for(int ii = 0; ii < sizeH; ++ii){
 			double rnd = (double) rand()/(double)RAND_MAX;
 			Cell::Status cs = (rnd < prob_alive) ? Cell::Status::Alive : Cell::Status::Dead;
-
 			setCellStatus( Row{i}, Col{ii}, cs);
 			setCellStatus( Row{i}, Col{ii}, cs, true);
 		}
@@ -243,7 +241,7 @@ void Board::setNext(){
 				
 			if(is_alive && !will_survive ) 	    setCellStatus( Row{i}, Col{ii}, Cell::Status::Dead , true );
 			else if(!is_alive && will_be_born ) setCellStatus( Row{i}, Col{ii}, Cell::Status::Alive, true );
-			else setCellStatus( Row{i}, Col{ii}, Cell::Status(isAlive(Row{i}, Col{ii})), true );
+			else setCellStatus( Row{i}, Col{ii}, Cell::Status(board[_index].test(sizeH * i + ii)), true );
 		}
 	}
 	
@@ -273,17 +271,18 @@ void Board::storeHash(){
 	
 		Unused features:
 			
-			- The variable 'position' will be used to determine the periodicty of the stability period.
+			- The variable 'index' will be used to determine the periodicty of the stability period.
 	
 	*/
 	
-	/* The 'next position in the hash table' */
-	int position = hash_map.size() + 1; 
-	std::hash<std::vector<bool>> hasher;
-	std::size_t preHash = hasher(board[_index]);
+	
+	int index = hash_map.size() + 1; // The index will be as the 'next position in the hash table'
+	
+	std::string preHash;
+	to_string(board[_index], preHash);
 	
 	if(hash_map.count(preHash) > 0) _isStable = true;
-	else hash_map[preHash] = position;
+	else hash_map[preHash] = index;
 	
 }
 
@@ -308,8 +307,8 @@ std::ostream& operator << (std::ostream& os, const Board& obj){
 		for(int ii = 0; ii < obj.sizeH; ++ii){
 			
 			bool alive = obj.isAlive(Board::Row{i}, Board::Col{ii});
-			os << ( alive ? ALIVE_CHAR : DEAD_CHAR );
-
+			os << ( alive ? ALIVE_CHAR : DEAD_CHAR ) << ' ';
+		
 		}
 		os << '\n'; // Break line, but avoid flushing (as std::endl would).
 	}
@@ -332,8 +331,7 @@ std::istream& operator >> (std::istream& is, Board& obj){
 
 		int len = line.length();
 		if( len != obj.sizeH )
-			throw std::ios_base::failure("The automata in the file doesn't have the correct dimensions: (V,H)=(" 
-				+ std::to_string(obj.sizeV) +  ", " + std::to_string(obj.sizeH) + ")");
+			throw std::ios_base::failure("The automata in the file doesn't have the correct dimensions: (V,H)=(" + std::to_string(obj.sizeV) +  ", " + std::to_string(obj.sizeH) + ")");
 
 		// Go through each character of the line
 		for( int i = 0; i < len; ++i ) {
@@ -341,7 +339,6 @@ std::istream& operator >> (std::istream& is, Board& obj){
 			if      ( c == ALIVE_CHAR ) cs = Cell::Status::Alive;
 			else if ( c == DEAD_CHAR  ) cs = Cell::Status::Dead;
 			else throw std::ios_base::failure("File is misformatted (could not parse the board correctly)");
-			
 			obj.setCellStatus(Board::Row{indexV}, Board::Col{i}, cs);
 		}
 	}

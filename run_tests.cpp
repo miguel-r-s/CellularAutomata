@@ -78,6 +78,8 @@ int main(int argc, char** argv) {
 
 	for(auto& test: iteration_test_cases) {
 
+		std::cout << "Testing: " << test.problem_file << std::endl;
+
 		std::ifstream problem_file (test.problem_file);
 		std::ifstream solution_file(test.solution_file);
 		
