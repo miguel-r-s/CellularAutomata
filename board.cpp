@@ -54,12 +54,12 @@ int Board::countLivingNeighbours(Row row, Col col) const {
 			/* Wrap around: This means if the cell being evaluated
 			is in the boarders, the cells on the other side will count 
 			as neighbours too.*/
-			int row_number = ( row.val + i )  >= sizeV ? 0:
+			size_t row_number = ( row.val + i )  >= sizeV ? 0:
 							 ( row.val + i )  < 0	   ? (sizeV - 1):
 							 row.val + i;
 				
 				
-			int col_number = ( col.val + ii ) >= sizeH ? 0: 
+			size_t col_number = ( col.val + ii ) >= sizeH ? 0: 
 				             ( col.val + ii ) < 0	   ? (sizeH - 1):
 				             col.val + ii;
 				
@@ -73,9 +73,9 @@ int Board::countLivingNeighbours(Row row, Col col) const {
 	return num_living;
 }
 
-int Board::stepsToStability() {
+size_t Board::stepsToStability() {
 	
-	int step = 0;
+	size_t step = 0;
 	while( !isStable() ){
 		setNext();
 		++step;
@@ -83,7 +83,7 @@ int Board::stepsToStability() {
 	return step;
 }
 
-int Board::stabilityPeriod() {
+size_t Board::stabilityPeriod() {
 	
 	/*
 		
@@ -101,12 +101,12 @@ int Board::stabilityPeriod() {
 		
 	*/
 	
-	int step = stepsToStability();
+	size_t step = stepsToStability();
 	
 	std::hash<std::vector<bool>> hasher;
 	std::size_t hash = hasher(board[_index]);
 
-	std::unordered_map< std::size_t, int>::iterator iter = hash_map.find( hash );
+	std::unordered_map< std::size_t, size_t>::iterator iter = hash_map.find( hash );
 	
 	return (step - iter->second);
 }
@@ -154,8 +154,8 @@ void Board::setCellStatus(Row row, Col col, Cell::Status cs){
 
 void Board::setAll(Cell::Status cs){
 	
-	for(int i = 0; i < sizeV; ++i){
-		for(int ii = 0; ii < sizeH; ++ii){
+	for(size_t i = 0; i < sizeV; ++i){
+		for(size_t ii = 0; ii < sizeH; ++ii){
 			setCellStatus(Row{i}, Col{ii}, cs);
 		}
 	}	
@@ -176,8 +176,8 @@ void Board::setRandom(int numberOfLivingCells){
 	
 	double prob_alive = (double)numberOfLivingCells/numberOfCells;
 
-	for(int i = 0; i < sizeV; ++i){
-		for(int ii = 0; ii < sizeH; ++ii){
+	for(size_t i = 0; i < sizeV; ++i){
+		for(size_t ii = 0; ii < sizeH; ++ii){
 			double rnd = (double) rand()/(double)RAND_MAX;
 			Cell::Status cs = (rnd < prob_alive) ? Cell::Status::Alive : Cell::Status::Dead;
 
@@ -194,9 +194,9 @@ void Board::insertShape(std::string file_name, Row row, Col col) {
 
 	std::ifstream file(file_name);
 	std::string line;
-	int r = 0;
+	size_t r = 0;
 	while(file >> line) {
-		for(int c = 0; c < static_cast<int>(line.length()); ++c) {
+		for(size_t c = 0; c < static_cast<size_t>(line.length()); ++c) {
 			Cell::Status cs = (line[c] == ALIVE_CHAR) ? Cell::Status::Alive : Cell::Status::Dead;
 			setCellStatus( Row{r + row.val}, Col{c + col.val}, cs );
 		}
@@ -209,7 +209,7 @@ void Board::insertShape(std::string file_name, Row row, Col col) {
 void Board::setBoundary(Cell::Status cs){
 	
 	// Horizontal Boundary 
-	for(int i = 0; i < sizeH; ++i){
+	for(size_t i = 0; i < sizeH; ++i){
 		
 		setCellStatus(Row{0}, 		Col{i}, cs);
 		setCellStatus(Row{sizeV-1}, Col{i}, cs);
@@ -217,7 +217,7 @@ void Board::setBoundary(Cell::Status cs){
 	}
 	
 	// Vertical Boundary
-	for(int i = 0; i < sizeV; ++i){
+	for(size_t i = 0; i < sizeV; ++i){
 		
 		setCellStatus(Row{i}, 		Col{0}, cs);
 		setCellStatus(Row{i}, Col{sizeH-1}, cs);
@@ -232,10 +232,11 @@ void Board::setNext(){
 		storeHash();
 
 	// Calculate next Step
-	for(int i = 0; i < sizeV; ++i){
-		for(int ii = 0; ii < sizeH; ++ii){
+	#pragma omp parallel for
+	for(size_t i = 0; i < sizeV; ++i){
+		for(size_t ii = 0; ii < sizeH; ++ii){
 			
-			int n = countLivingNeighbours( Row{i} , Col{ii} );
+			size_t n = countLivingNeighbours( Row{i} , Col{ii} );
 			
 			bool is_alive = isAlive( Row{i}, Col{ii} );
 			bool will_survive  = (std::find(survival.begin(), survival.end(), n) != survival.end());
@@ -278,7 +279,7 @@ void Board::storeHash(){
 	*/
 	
 	/* The 'next position in the hash table' */
-	int position = hash_map.size() + 1; 
+	size_t position = hash_map.size() + 1; 
 	std::hash<std::vector<bool>> hasher;
 	std::size_t preHash = hasher(board[_index]);
 	
@@ -304,8 +305,8 @@ Board& Board::operator=( Board b ){
 
 std::ostream& operator << (std::ostream& os, const Board& obj){
 	
-	for(int i = 0; i < obj.sizeV; ++i){
-		for(int ii = 0; ii < obj.sizeH; ++ii){
+	for(size_t i = 0; i < obj.sizeV; ++i){
+		for(size_t ii = 0; ii < obj.sizeH; ++ii){
 			
 			bool alive = obj.isAlive(Board::Row{i}, Board::Col{ii});
 			os << ( alive ? ALIVE_CHAR : DEAD_CHAR );
@@ -320,7 +321,7 @@ std::ostream& operator << (std::ostream& os, const Board& obj){
 
 std::istream& operator >> (std::istream& is, Board& obj){
 	
-	int indexV;
+	size_t indexV;
 	std::string line;
 	
 	for( indexV = 0; std::getline(is, line); ++indexV ) {
@@ -330,13 +331,13 @@ std::istream& operator >> (std::istream& is, Board& obj){
 		// Remove spaces from the line, if there are any (they may appear for aesthetic purposes)
 		line.erase(remove_if(line.begin(), line.end(), isspace), line.end());		
 
-		int len = line.length();
+		size_t len = line.length();
 		if( len != obj.sizeH )
 			throw std::ios_base::failure("The automata in the file doesn't have the correct dimensions: (V,H)=(" 
 				+ std::to_string(obj.sizeV) +  ", " + std::to_string(obj.sizeH) + ")");
 
 		// Go through each character of the line
-		for( int i = 0; i < len; ++i ) {
+		for( size_t i = 0; i < len; ++i ) {
 			char c = line.at(i);
 			if      ( c == ALIVE_CHAR ) cs = Cell::Status::Alive;
 			else if ( c == DEAD_CHAR  ) cs = Cell::Status::Dead;
@@ -360,8 +361,8 @@ bool operator==(const Board& lhs, const Board& rhs) {
 	if(lhs.sizeH != rhs.sizeH) return false;
 
 	// Check health status in each cell from lhs == rhs
-	for(int i = 0; i < lhs.sizeV; ++i){
-		for(int ii = 0; ii < lhs.sizeH; ++ii){
+	for(size_t i = 0; i < lhs.sizeV; ++i){
+		for(size_t ii = 0; ii < lhs.sizeH; ++ii){
 
 			if( lhs.isAlive(Board::Row{i}, Board::Col{ii}) != rhs.isAlive(Board::Row{i}, Board::Col{ii}) ) {
 

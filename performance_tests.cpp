@@ -21,8 +21,8 @@ int main(int argc, char** argv){
 	const unsigned int num_iterations = 1E3;
 
 	// Default values	
-	unsigned int vertSize = 500;
-	unsigned int horiSize = 600;
+	unsigned int vertSize = 800;
+	unsigned int horiSize = 400;
 	double prob = 0.25;
 	std::string ruleString = ConwaysLife_rulestring;
 

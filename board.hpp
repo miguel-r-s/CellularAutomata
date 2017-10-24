@@ -26,11 +26,11 @@ public:
 			- Constructor: Board B( Board::SizeV{10}, Board::SizeH{15} )
 			-     isAlive: B.isAlive( Board::Row{10}, Board::Col{15} ) 
 	*/
-	struct Row{int val;};
-	struct Col{int val;};
+	struct Row {size_t val;};
+	struct Col {size_t val;};
 	
-	struct SizeV{unsigned int val;};  // Number of rows, size of the columns
-	struct SizeH{unsigned int val;};  // Number of columns, size of the rows
+	struct SizeV {size_t val;};  // Number of rows, size of the columns
+	struct SizeH {size_t val;};  // Number of columns, size of the rows
 	
 	Board(SizeV, SizeH, std::string s = ConwaysLife_rulestring);
 	Board(const Board&);
@@ -39,8 +39,8 @@ public:
 	bool isAlive(Row, Col) const;
 	bool isStable() const;
 
-	int stepsToStability();
-	int stabilityPeriod(); // Evaluates the number of steps in the stability period. 
+	size_t stepsToStability();
+	size_t stabilityPeriod(); // Evaluates the number of steps in the stability period. 
 	
 	void setRule(const std::string&);
 	void setCellStatus(Row, Col, Cell::Status);
@@ -74,7 +74,7 @@ private:
 		This unordered_map will store the hashes of each
 	 	of the previous configurations of the board if _should_store == true
 	*/
-	std::unordered_map< std::size_t, int > hash_map;
+	std::unordered_map< std::size_t, size_t > hash_map;
 	
 	std::string rule;
 	std::vector<int> survival;
@@ -85,8 +85,8 @@ private:
 
 	bool _index; // Used to determine which of the boards is currently active
 
-	int sizeV;  
-	int sizeH;
+	size_t sizeV;  
+	size_t sizeH;
 
 	// Can only access the _next_ element from within 
 	// the implementation of the class. The public 

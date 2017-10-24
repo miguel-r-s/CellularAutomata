@@ -1,5 +1,5 @@
 GCC=g++
-FLAGS=-Wall -std=c++11 -O3
+FLAGS=-Wall -std=c++11 -O3 -fopenmp
 
 # default builds the necessary object files
 default: board.o
