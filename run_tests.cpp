@@ -5,8 +5,8 @@
 
 struct TestCase_t {
 
-	int sizeV;
-	int sizeH;
+	size_t sizeV;
+	size_t sizeH;
 	std::string rule_string;
 };
 
@@ -16,7 +16,7 @@ struct  IterationCorrectnessTest_t {
 	std::string problem_file;
 	std::string solution_file;
 
-	int num_iterations;
+	size_t num_iterations;
 };
 
 struct PeriodCorrectnessTest_t {
@@ -24,7 +24,7 @@ struct PeriodCorrectnessTest_t {
 	TestCase_t test_case;
 	std::string problem_file;
 
-	int target;
+	size_t target;
 };
 
 std::ostream& operator << (std::ostream& os, const TestCase_t& tc) {
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 		problem_file  >> b_problem;
 		solution_file >> b_solution;
 
-		for(int i = 0; i < test.num_iterations; ++i){
+		for(size_t i = 0; i < test.num_iterations; ++i){
 			b_problem.setNext();
 		}
 
